@@ -1,0 +1,40 @@
+﻿@model IPagedList<NimapDEMO.Models.sp_join_Result>
+@{
+    Layout = null;
+}
+@using PagedList.Mvc;
+@using PagedList;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm("IndexSearch", "Category", FormMethod.Get))
+        {
+            @Html.Label("Enter category name to search") @Html.TextBox("txtSearch")
+            <input type="submit" value="Search" />
+        }
+    </div>
+    <div>
+        <table>
+            <tr><th>Product ID</th><th>Product Name</th><th>Category ID</th><th>Category Name</th></tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayName(item.ProductId.ToString())</td>
+                    <td>@Html.DisplayName(item.ProductName)</td>
+                    <td>@Html.DisplayName(item.CategoryId.ToString())</td>
+                    <td>@Html.DisplayName(item.CategoryName)</td>
+                </tr>
+            }
+
+        </table>
+
+    </div>
+    @Html.PagedListPager(Model, i => Url.Action("Index", "Category", new { i, txtSearch = Request.QueryString["txtSearch"] }))
+</body>
+</html>
